@@ -1,122 +1,55 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import { useEffect } from 'react'
+import { StoreProvider } from './controllers/StoreController'
+import { useLocation } from './controllers/router'
+import { Layout } from './views/components/Layout'
+import { HomePage } from './views/pages/HomePage'
+import { ProductsPage } from './views/pages/ProductsPage'
+import { ServicesPage } from './views/pages/ServicesPage'
+import { ContactPage } from './views/pages/ContactPage'
+import { Link } from './views/components/Link'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+const titles: Record<string, string> = {
+  '/': 'Pure Ceylon cinnamon, thoughtfully shared',
+  '/products': 'The collection',
+  '/services': 'Our services',
+  '/contact': 'Get in touch',
+}
 
+function AppContent() {
+  const location = useLocation()
+  const path = location.split('?')[0].replace(/\/$/, '') || '/'
+  useEffect(() => {
+    document.title = `${titles[path] || 'Page not found'} | Alba Cinnamon`
+    const focusSearch = path === '/products' && new URLSearchParams(window.location.search).has('search')
+    if (!window.location.hash && !focusSearch) window.scrollTo({ top: 0, behavior: 'instant' })
+    const focusTarget = focusSearch
+      ? document.getElementById('product-search')
+      : document.getElementById('main-content')
+    focusTarget?.focus({ preventScroll: !focusSearch })
+  }, [location, path])
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+    <Layout path={path}>
+      {path === '/' ? <HomePage />
+        : path === '/products' ? <ProductsPage key={location} />
+        : path === '/services' ? <ServicesPage />
+        : path === '/contact' ? <ContactPage key={location} />
+        : (
+          <section className="container not-found">
+            <span className="eyebrow">A LITTLE OFF THE BEATEN PATH</span>
+            <h1>This page hasn’t taken root.</h1>
+            <p>Let’s get you back to something good.</p>
+            <Link href="/" className="button button-primary">Back to home</Link>
+          </section>
+        )}
+    </Layout>
   )
 }
 
-export default App
+export default function App() {
+  return (
+    <StoreProvider>
+      <AppContent />
+    </StoreProvider>
+  )
+}
