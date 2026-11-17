@@ -10,7 +10,7 @@ import { Link } from './views/components/Link'
 import './App.css'
 
 const titles: Record<string, string> = {
-  '/': 'Pure Ceylon cinnamon, thoughtfully shared',
+  '/': 'Alba Cinnamon',
   '/products': 'The collection',
   '/services': 'Our services',
   '/contact': 'Get in touch',
@@ -20,7 +20,7 @@ function AppContent() {
   const location = useLocation()
   const path = location.split('?')[0].replace(/\/$/, '') || '/'
   useEffect(() => {
-    document.title = `${titles[path] || 'Page not found'} | Alba Cinnamon`
+    document.title = path === '/' ? titles[path] : `${titles[path] || 'Page not found'} | Alba Cinnamon`
     const focusSearch = path === '/products' && new URLSearchParams(window.location.search).has('search')
     if (!window.location.hash && !focusSearch) window.scrollTo({ top: 0, behavior: 'instant' })
     const focusTarget = focusSearch
