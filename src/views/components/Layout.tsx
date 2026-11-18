@@ -10,14 +10,14 @@ const navigation = [{ href: '/', label: 'Home' }, { href: '/services', label: 'S
 
 export function Layout({ children, path }: { children: ReactNode; path: string }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const { itemCount, cartOpen, setCartOpen, toast, dismissToast } = useStore()
+  const { cartOpen, setCartOpen, toast, dismissToast } = useStore()
   return (
     <>
       <a className="skip-link" href="#main-content">Skip to content</a>
       <div className="announcement">
         <div className="container">
-          <span>A little warmth, delivered. <Link href="/products">Free shipping on orders $50+</Link></span>
-          <span className="announcement-origin"><span /> ROOTED IN SRI LANKA</span>
+          <span>A little warmth, delivered.</span>
+          <span className="announcement-origin"><span /> ROOTED IN DOWN SOUTH OF SRI LANKA</span>
         </div>
       </div>
       <header className="site-header">
@@ -45,12 +45,6 @@ export function Layout({ children, path }: { children: ReactNode; path: string }
             >
               <Icon name="search" size={21} />
             </Link>
-            <span className="header-action-divider" />
-            <button className="bag-button" aria-label={`Open shopping bag, ${itemCount} items`} onClick={() => setCartOpen(true)}>
-              <Icon name="bag" size={21} />
-              <span className="bag-word">Bag</span>
-              <span className="bag-count">{itemCount}</span>
-            </button>
             <button
               className="icon-button menu-toggle"
               aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}
