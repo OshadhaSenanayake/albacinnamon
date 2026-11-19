@@ -7,6 +7,7 @@ export interface Product {
   category: ProductCategory
   price: number
   weight: string
+  imageUrl?: string
   badge?: string
   tone: 'sand' | 'sage' | 'clay' | 'cream'
   packageType: 'pouch' | 'jar' | 'box' | 'bottle'
@@ -22,6 +23,7 @@ export const products: Product[] = [
     category: 'Sticks',
     price: 12.5,
     weight: '100g',
+    imageUrl: new URL('../../designs/product-images/ceylon-cinnamon-100g-compact-pouch-seal.png', import.meta.url).href,
     badge: 'BESTSELLER',
     tone: 'sand',
     packageType: 'pouch',

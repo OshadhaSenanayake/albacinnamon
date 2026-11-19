@@ -2,6 +2,14 @@ import type { Product } from '../../models/product'
 import { Botanical } from './Brand'
 
 export function ProductVisual({ product }: { product: Product }) {
+  if (product.imageUrl) {
+    return (
+      <div className={`product-visual tone-${product.tone}`}>
+        <img className="product-photo" src={product.imageUrl} alt={`${product.weight} of ${product.name} by Alba Cinnamon`} />
+      </div>
+    )
+  }
+
   const shortName = product.category === 'Sticks' ? 'Ceylon Cinnamon'
     : product.category === 'Powder' ? 'Ground Cinnamon'
       : product.category === 'Tea' ? 'Cinnamon Tea'

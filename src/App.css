@@ -72,11 +72,14 @@
 .product-card { min-width: 0; }
 .product-image-button { position: relative; display: block; width: 100%; padding: 0; background: none; text-align: left; overflow: hidden; border-radius: 3px; }
 .product-visual { --surface: #eeebe1; --pack: #c8ad7d; --label: #f0e9d7; position: relative; display: flex; align-items: center; justify-content: center; isolation: isolate; width: 100%; height: 300px; overflow: hidden; background: radial-gradient(ellipse at 40% 30%, #ffffff60, transparent 65%), var(--surface); }
+.product-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.product-image-button .product-photo { scale: 1.1; }
 .tone-sand { --surface: #eee9de; --pack: #bea071; --label: #eee6ce; }
 .tone-clay { --surface: #eee4d9; --pack: #b38053; --label: #f4ead4; }
 .tone-sage { --surface: #e7eadd; --pack: #d5d1ad; --label: #e6e7d3; }
 .tone-cream { --surface: #eeece5; --pack: #d0bc96; --label: #e9e4d2; }
-.package { position: relative; z-index: 2; width: 136px; height: 211px; margin-top: 6px; background: linear-gradient(95deg, #ffffff40, transparent 8%, #00000008 14%, #ffffff18 30%, transparent 68%, #00000018 90%, #ffffff26 94%), var(--pack); box-shadow: 9px 15px 15px -12px #38341a80, inset 2px 0 3px #ffffff35, inset -3px 0 4px #00000015; transition: transform .5s ease; border-radius: 4px 4px 9px 9px; transform: rotate(-3deg); }
+.package, .product-image-button .product-photo { transform: rotate(-3deg); transition: transform .5s ease; }
+.package { position: relative; z-index: 2; width: 136px; height: 211px; margin-top: 6px; background: linear-gradient(95deg, #ffffff40, transparent 8%, #00000008 14%, #ffffff18 30%, transparent 68%, #00000018 90%, #ffffff26 94%), var(--pack); box-shadow: 9px 15px 15px -12px #38341a80, inset 2px 0 3px #ffffff35, inset -3px 0 4px #00000015; border-radius: 4px 4px 9px 9px; }
 .package-pouch { clip-path: polygon(2% 0, 98% 0, 97% 12%, 100% 94%, 97% 100%, 4% 100%, 0 94%, 3% 12%); width: 141px; height: 216px; }
 .package::after { position: absolute; content: ''; left: 5%; right: 5%; bottom: 3px; height: 10px; border-bottom: 1px solid #5d491c33; border-radius: 50%; }
 .package-seal { position: absolute; left: 2px; right: 2px; top: 8px; height: 7px; border-block: 1px solid #67522b44; box-shadow: 0 3px 1px #fff2; }
@@ -120,7 +123,7 @@
 .tone-clay .cinnamon-sticks { left: auto; right: 11px; transform: rotate(-13deg); }
 .tone-sage .cinnamon-sticks { left: 10px; bottom: 24px; width: 65px; transform: rotate(12deg) scale(.8); }
 .tone-cream .cinnamon-sticks { transform: rotate(-8deg); left: 23px; bottom: 31px; }
-.product-image-button:hover .package { transform: translateY(-5px) rotate(0); }
+.product-image-button:hover :is(.package, .product-photo) { transform: translateY(-5px) rotate(0); }
 .product-badge { position: absolute; top: 14px; left: 13px; padding: 5px 8px; border: 1px solid #77866a66; background: #fafbf24d; font-size: 7px; letter-spacing: 1px; line-height: 1; color: #556548; border-radius: 1px; }
 .product-quick-view { position: absolute; bottom: 0; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 10px; padding: 10px; color: var(--green); background: #fafaf1ed; font-size: 10px; transform: translateY(101%); transition: transform .25s; }
 .product-image-button:hover .product-quick-view, .product-image-button:focus-visible .product-quick-view { transform: translateY(0); }
@@ -260,6 +263,7 @@
 .product-modal { width: 790px; }
 .product-modal[open] { display: grid; grid-template-columns: .95fr 1.05fr; }
 .product-modal > .product-visual { height: 100%; min-height: 440px; }
+.product-modal .product-photo { object-fit: contain; background: #efdbca; }
 .product-modal .package { scale: 1.35; }
 .product-modal .cinnamon-sticks { bottom: 55px; left: 25px; scale: 1.3; }
 .product-detail { padding: 60px 35px 35px; }
