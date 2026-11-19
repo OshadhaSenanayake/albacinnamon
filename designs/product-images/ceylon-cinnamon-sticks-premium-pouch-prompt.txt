@@ -1,0 +1,20 @@
+Use case: product-mockup.
+Create ONE premium, photorealistic studio product image of a 100g Ceylon Cinnamon Sticks kraft stand-up pouch.
+
+Reference: the supplied website screenshot is a DESIGN REFERENCE ONLY. Match the FIRST product pouch in the four-product collection, not the other products or the website itself. Transform that illustrated pouch into convincing real packaging while preserving its label design.
+
+Pouch: warm matte natural kraft paper, colour approximately #bea071, believable paper fibres, subtle creases, sealed resealable top, gusseted rounded base, gently filled shape and slight left tilt. Show the entire upright pouch, almost front-on, with a subtle three-quarter depth.
+
+Label: a centered warm-cream rectangular paper label, approximately #eee6ce, covering about 76% of the pouch width and 71% of its height. Muted dark-green printing, approximately #384832. Preserve this exact centered order:
+1. "ALBA" in large, widely spaced Georgia serif capitals.
+2. "CINNAMON" in tiny, widely spaced sans-serif capitals.
+3. A short, thin horizontal rule.
+4. The existing delicate four-leaf botanical drawing: curved upright stem, three outlined leaves to the left, one to the right, fine central veins.
+5. "Ceylon Cinnamon" in Georgia Regular.
+6. "A LITTLE WARMTH FROM CEYLON" in very small sans-serif capitals.
+7. "100g" in tiny type near the label bottom.
+Keep all spelling crisp and accurate. Do not redesign the logo, substitute another botanical, or add label text.
+
+Scene: warm ivory seamless studio backdrop and matte surface, soft directional light from the upper left, realistic gentle contact shadow, refined neutral styling. Place three delicate, naturally layered Ceylon cinnamon quills at the lower left and two understated green leaves near the lower right, as in the reference. Pouch remains dominant, occupying about 75% of the square image height, with generous clear margins. Sharp product and label, natural material texture, subtle depth, premium commercial food photography.
+
+No webpage elements, prices, BESTSELLER badge, buttons, borders, extra products, decorative slogans, certification seals, watermark, plastic gloss, or cartoon/illustrated appearance. Deliver one high-resolution square product photograph-style image.
