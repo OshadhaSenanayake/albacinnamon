@@ -5,7 +5,7 @@ const services = [
     number: '01',
     title: 'Retail & everyday rituals',
     description: 'A pinch in your morning coffee. A little warmth in your favourite bake. Discover cinnamon made for the moments you love.',
-    features: ['Cinnamon sticks, powder & tea', 'Small packs for your pantry', 'Easy online ordering'],
+    features: ['Cinnamon sticks, baking blend, tea & oil', 'Small packs for your pantry', 'Easy online ordering'],
     link: '/products',
     action: 'Find your everyday favourite',
     icon: 'leaf',

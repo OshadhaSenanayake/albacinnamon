@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { products as catalog, type ProductCategory } from '../models/product'
 
-export const categories = ['All products', 'Sticks', 'Powder', 'Tea', 'Gift sets'] as const
+export const categories = ['All products', 'Sticks', 'Powder', 'Tea', 'Gift sets', 'Oil'] as const
 export type CatalogCategory = 'All products' | ProductCategory
 export type SortOrder = 'featured' | 'price-asc' | 'price-desc' | 'name'
 

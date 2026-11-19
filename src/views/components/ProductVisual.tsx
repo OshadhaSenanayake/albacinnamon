@@ -11,9 +11,9 @@ export function ProductVisual({ product }: { product: Product }) {
   }
 
   const shortName = product.category === 'Sticks' ? 'Ceylon Cinnamon'
-    : product.category === 'Powder' ? 'Ground Cinnamon'
-      : product.category === 'Tea' ? 'Cinnamon Tea'
-        : 'The Cinnamon Collection'
+    : product.category === 'Tea' ? 'Cinnamon Tea'
+      : product.category === 'Gift sets' ? 'The Cinnamon Collection'
+        : product.name
   return (
     <div
       className={`product-visual tone-${product.tone}`}

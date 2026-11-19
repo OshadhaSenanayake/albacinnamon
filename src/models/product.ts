@@ -1,4 +1,4 @@
-export type ProductCategory = 'Sticks' | 'Powder' | 'Tea' | 'Gift sets'
+export type ProductCategory = 'Sticks' | 'Powder' | 'Tea' | 'Gift sets' | 'Oil'
 
 export interface Product {
   id: string
@@ -30,15 +30,15 @@ export const products: Product[] = [
     description: 'Fine cinnamon quills for slow infusions, warming drinks, and your favorite family recipes.',
   },
   {
-    id: 'ground-cinnamon',
-    name: 'Ground Ceylon Cinnamon',
-    subtitle: 'A little warmth in every sprinkle',
+    id: 'cinnamon-baking-blend',
+    name: 'Cinnamon Baking Blend',
+    subtitle: 'Your next favorite pantry staple',
     category: 'Powder',
-    price: 9.5,
-    weight: '100g',
-    tone: 'clay',
+    price: 11,
+    weight: '150g',
+    tone: 'sand',
     packageType: 'jar',
-    description: 'Finely ground cinnamon with a gentle sweetness, ready for your morning oats and weekend baking.',
+    description: 'A warming cinnamon blend for cakes, biscuits, and weekend baking.',
   },
   {
     id: 'cinnamon-tea',
@@ -76,15 +76,15 @@ export const products: Product[] = [
     description: 'Slender cinnamon quills with a beautifully delicate aroma for fragrant desserts and infusions.',
   },
   {
-    id: 'cinnamon-baking-blend',
-    name: 'Cinnamon Baking Blend',
-    subtitle: 'Your next favorite pantry staple',
-    category: 'Powder',
-    price: 11,
-    weight: '150g',
-    tone: 'sand',
-    packageType: 'jar',
-    description: 'A generous jar of warming ground cinnamon for sharing fresh-from-the-oven moments.',
+    id: 'cinnamon-oil',
+    name: 'Ceylon Cinnamon Oil',
+    subtitle: 'Warm, spicy aroma',
+    category: 'Oil',
+    price: 9.5,
+    weight: '50 ml',
+    tone: 'clay',
+    packageType: 'bottle',
+    description: 'The distinctive scent of Ceylon cinnamon in a 50 ml bottle.',
   },
 ]
 

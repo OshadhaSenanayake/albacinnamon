@@ -96,6 +96,17 @@
 .package-jar .package-label { top: 15%; height: 73%; left: 4%; width: 92%; padding-top: 10px; }
 .package-jar .package-botanical { height: 28px; margin: 3px 0; }
 .package-jar .package-rule { margin-top: 6px; }
+.package-bottle { width: 100px; height: 160px; margin-top: 45px; border: 1px solid #70401f; border-radius: 23px 23px 13px 13px; background: linear-gradient(90deg, #29190db3, #e9ac6559 15%, #ffffff24 25%, transparent 42%, #49220d33 75%, #29150999), linear-gradient(0deg, #7b3b15, #a46024 80%, #bc7934); box-shadow: 8px 13px 15px -10px #36210e99, inset 2px 0 3px #edc78d55, inset -3px 0 4px #361a0c55; }
+.package-bottle::before { content: ''; position: absolute; top: -25px; left: 32px; width: 34px; height: 29px; border: 1px solid #784822; border-radius: 5px 5px 2px 2px; background: linear-gradient(90deg, #633313, #c68c45 24%, #9d6028 65%, #643515); }
+.package-bottle::after { left: 8%; right: 8%; bottom: 6px; border-bottom-color: #dda66e55; }
+.package-bottle .package-seal { top: -47px; left: 29px; right: 29px; height: 29px; border: 1px solid #293126; border-radius: 5px 5px 2px 2px; background: repeating-linear-gradient(90deg, #26352b 0, #4b5648 2px, #303d30 3px); box-shadow: 0 3px 3px #301a1044, inset 0 2px 1px #78816a66; }
+.package-bottle .package-label { top: 18%; left: 5%; width: 90%; height: 74%; padding-top: 8px; background: #f3ead3; border-radius: 1px; }
+.package-bottle .package-brand { font-size: 17px; }
+.package-bottle .package-rule { margin-top: 5px; }
+.package-bottle .package-botanical { height: 27px; margin: 3px 0; }
+.package-bottle .package-title { font-size: 9px; }
+.package-bottle .package-origin { font-size: 2.8px; letter-spacing: .35px; margin-top: 4px; }
+.package-bottle .package-weight { font-size: 4.8px; margin-bottom: 6px; }
 .package-box { border-radius: 1px; width: 142px; height: 195px; transform: rotate(-5deg); background: linear-gradient(90deg, #ffffff15 89%, #00000015 90%), var(--pack); box-shadow: 8px 13px 14px -8px #302e1a40, inset 0 1px #fff5; }
 .package-box .package-label { background: transparent; width: 87%; height: 88%; left: 0; top: 5%; padding-top: 14px; }
 .package-box .package-seal { border: none; top: 3px; height: 1px; background: #8d825544; }

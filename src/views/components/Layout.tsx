@@ -74,7 +74,7 @@ export function Layout({ children, path }: { children: ReactNode; path: string }
           <div className="footer-links">
             <span className="eyebrow">A LITTLE GOODNESS</span>
             <Link href="/products?q=sticks">Cinnamon sticks</Link>
-            <Link href="/products?q=powder">Ground cinnamon</Link>
+            <Link href="/products?q=oil">Ceylon Cinnamon Oil</Link>
             <Link href="/products?q=tea">Cinnamon tea</Link>
             <Link href="/products?q=gift">Thoughtful gifts</Link>
           </div>
