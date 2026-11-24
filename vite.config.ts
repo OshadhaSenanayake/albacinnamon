@@ -1,12 +1,16 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig, loadEnv, type PreviewServer, type ViteDevServer } from 'vite'
-import { createQuotationHandler } from './server/quotations.ts'
+import { createInquiryHandler } from './server/quotations.ts'
 
 export default defineConfig(({ mode }) => {
-  const handle = createQuotationHandler({ ...loadEnv(mode, process.cwd(), ['QUOTATION_', 'RESEND_']), ...process.env })
+  const env = { ...loadEnv(mode, process.cwd(), ['QUOTATION_', 'RESEND_']), ...process.env }
+  const quotations = createInquiryHandler('quotation', env)
+  const contact = createInquiryHandler('contact', env)
   function attach(server: ViteDevServer | PreviewServer) {
     server.middlewares.use((req, res, next) => {
-      if (req.url?.split('?')[0] === '/api/quotations') void handle(req, res)
+      const path = req.url?.split('?')[0]
+      if (path === '/api/quotations') void quotations(req, res)
+      else if (path === '/api/contact') void contact(req, res)
       else next()
     })
   }

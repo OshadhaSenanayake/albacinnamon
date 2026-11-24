@@ -2,7 +2,7 @@ import { createReadStream, readdirSync } from 'node:fs'
 import { createServer } from 'node:http'
 import { extname, join, relative, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { createQuotationHandler } from './quotations.ts'
+import { createInquiryHandler } from './quotations.ts'
 
 const dist = fileURLToPath(new URL('../dist/', import.meta.url))
 const assets = new Map<string, string>()
@@ -14,11 +14,13 @@ for (const entry of readdirSync(dist, { recursive: true, withFileTypes: true }))
 const index = assets.get('/index.html')
 if (!index) throw new Error('Run npm run build first.')
 const types: Record<string, string> = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.svg': 'image/svg+xml' }
-const quotations = createQuotationHandler(process.env)
+const quotations = createInquiryHandler('quotation', process.env)
+const contact = createInquiryHandler('contact', process.env)
 const port = Number(process.env.PORT || 3000)
 createServer((req, res) => {
   const path = (req.url ?? '/').split('?')[0]
   if (path === '/api/quotations') return void quotations(req, res)
+  if (path === '/api/contact') return void contact(req, res)
   if (req.method !== 'GET' && req.method !== 'HEAD') return void res.writeHead(405, { Allow: 'GET, HEAD' }).end()
   const isPage = !path.startsWith('/api/') && !extname(path) && req.headers.accept?.includes('text/html')
   const file = assets.get(path) ?? (path === '/' || isPage ? index : undefined)

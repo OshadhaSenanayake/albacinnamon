@@ -1,28 +1,21 @@
 import { useEffect, useRef } from 'react'
 import { useContactForm } from '../../controllers/useContactForm'
-import type { ContactInterest } from '../../controllers/useContactForm'
+import { interestLabels, type ContactInterest } from '../../models/contact'
 import { Link } from '../components/Link'
 
-const interestLabels: Record<ContactInterest, string> = {
-  general: 'Just saying hello',
-  wholesale: 'Wholesale & bulk orders',
-  gifting: 'Gifting & special occasions',
-  order: 'A question about an order',
-}
-
 export function ContactPage() {
-  const { values, errors, submitted, updateField, handleSubmit, resetForm } = useContactForm()
-  const previousSubmission = useRef(submitted)
-  const successPreview = useRef<HTMLDivElement>(null)
+  const { values, errors, step, sending, deliveryError, updateField, preview, edit, sendInquiry, resetForm } = useContactForm()
+  const previousStep = useRef(step)
+  const stepHeading = useRef<HTMLHeadingElement>(null)
   const nameInput = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    if (previousSubmission.current === submitted) return
-    previousSubmission.current = submitted
-
-    if (submitted) successPreview.current?.focus()
-    else nameInput.current?.focus()
-  }, [submitted])
+    if (previousStep.current !== step) {
+      previousStep.current = step
+      if (step === 'edit') nameInput.current?.focus()
+      else stepHeading.current?.focus()
+    }
+  }, [step])
 
   return (
     <>
@@ -36,26 +29,35 @@ export function ContactPage() {
         <div className="contact-details">
           <span className="eyebrow">We’d love to hear from you</span>
           <h2>A good conversation<br />is the start of<br />something good.</h2>
-          <p>Tell us a little about yourself and what you’re looking for. Start with the form to create a preview of your enquiry.</p>
+          <p>Tell us what you have in mind. You can review your inquiry before sending it to our team.</p>
           <div className="contact-item"><span>Our roots</span><p>Down south of Sri Lanka, the home of Ceylon cinnamon.</p></div>
           <div className="contact-item"><span>Get in touch through</span><p><a href="mailto:hello@albacinnamon.com">hello@albacinnamon.com</a></p></div>
           <div className="contact-item"><span>From our island to your home</span><p>You’re one click away from the delicate sweetness and warm aroma of fine Ceylon cinnamon. <Link href="/products">Explore our collection.</Link></p></div>
         </div>
 
-        {submitted ? (
-          <div className="form-success" ref={successPreview} role="status" aria-live="polite" tabIndex={-1}>
-            <span className="eyebrow">A little preview</span>
-            <h2>Your enquiry is ready, {submitted.name.split(' ')[0]}.</h2>
-            <p>This is a demo confirmation. Your message has not been sent or saved.</p>
+        {step === 'sent' ? (
+          <div className="form-success">
+            <h2 ref={stepHeading} tabIndex={-1}>Inquiry submitted successfully</h2>
+            <p>Thank you, {values.name}. You’ve given us <strong>{values.email}</strong> as your reply address.</p>
+            <div className="inquiry-actions"><button type="button" className="button button-primary" onClick={resetForm}>Submit another inquiry</button></div>
+          </div>
+        ) : step === 'review' ? (
+          <div className="form-success" aria-busy={sending}>
+            <h2 ref={stepHeading} tabIndex={-1}>Review your inquiry</h2>
+            <p>Check your details, then send your message.</p>
             <dl className="enquiry-preview">
-              <div><dt>From</dt><dd>{submitted.name}<br />{submitted.email}</dd></div>
-              <div><dt>About</dt><dd>{interestLabels[submitted.interest]}</dd></div>
-              <div><dt>Your message</dt><dd>{submitted.message}</dd></div>
+              <div><dt>From</dt><dd>{values.name}<br />{values.email}</dd></div>
+              <div><dt>About</dt><dd>{interestLabels[values.interest]}</dd></div>
+              <div><dt>Your message</dt><dd>{values.message}</dd></div>
             </dl>
-            <button type="button" className="button button-primary" onClick={resetForm}>Start another enquiry <span aria-hidden="true">↗</span></button>
+            {deliveryError && <p className="field-error" role="alert">{deliveryError}</p>}
+            <div className="inquiry-actions">
+              <button type="button" className="button button-primary" disabled={sending} onClick={sendInquiry}>{sending ? 'Sending…' : 'Submit inquiry'}</button>
+              <button type="button" className="text-link" disabled={sending} onClick={edit}>Edit inquiry</button>
+            </div>
           </div>
         ) : (
-          <form className="contact-form" noValidate onSubmit={handleSubmit}>
+          <form className="contact-form" noValidate onSubmit={preview}>
             <h2>Send a little warmth our way.</h2>
             <p>Fields marked with * are required.</p>
             <div className="form-row">
@@ -82,7 +84,7 @@ export function ContactPage() {
               <textarea id="contact-message" name="message" required minLength={20} maxLength={2000} rows={6} placeholder="Tell us a little about what you have in mind…" value={values.message} onChange={(event) => updateField('message', event.target.value)} aria-invalid={Boolean(errors.message)} aria-describedby={errors.message ? 'message-error' : 'message-hint'} />
               {errors.message ? <span className="field-error" id="message-error">{errors.message}</span> : <small id="message-hint">20–2,000 characters. Please avoid sensitive personal information.</small>}
             </div>
-            <button className="button button-primary" type="submit">Preview enquiry <span aria-hidden="true">↗</span></button>
+            <button className="button button-primary" type="submit">Preview inquiry <span aria-hidden="true">↗</span></button>
           </form>
         )}
       </section>
@@ -92,7 +94,7 @@ export function ContactPage() {
         <div className="faq-list">
           <details><summary>How can I get pricing and delivery details?</summary><p><Link href="/quotation">Request a quotation</Link> with your product, quantity, and delivery destination.</p></details>
           <details><summary>Which cinnamon format should I choose?</summary><p>Tuck a quill into a pot of simmering apples, fold the baking blend into biscuit dough, or steep a cinnamon tea bag for a quiet afternoon cup. For fragrance, try our <Link href="/products?q=oil">Ceylon Cinnamon Oil</Link> in a diffuser to fill your room with a warm, gently spiced aroma.</p></details>
-          <details><summary>Can I enquire about a wholesale order?</summary><p>Of course. Choose “Wholesale & bulk orders” above and include your preferred products, approximate quantities, and timing in your enquiry preview.</p></details>
+          <details><summary>Can I enquire about a wholesale order?</summary><p>Yes. Choose “Wholesale &amp; bulk orders” above and tell us which products you need, the quantities, and your preferred delivery date.</p></details>
         </div>
       </section>
     </>

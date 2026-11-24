@@ -241,6 +241,7 @@
 .form-success h2 { font-size: 35px; margin-top: 15px; }
 .form-success > p { font-size: 11px; color: #737e64; margin-top: 20px; line-height: 1.8; }
 .enquiry-preview { font-size: 11px; margin-block: 25px; }
+.inquiry-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 20px; }
 .enquiry-preview > div { padding-block: 16px; border-top: 1px solid #daddcd; }
 .enquiry-preview dt { font-size: 9px; color: #818b74; margin-bottom: 9px; }
 .enquiry-preview dd { margin: 0; line-height: 1.8; white-space: pre-wrap; overflow-wrap: anywhere; }

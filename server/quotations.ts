@@ -4,8 +4,9 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 import { homedir } from 'node:os'
 import { join } from 'node:path'
 import { products } from '../src/models/product.ts'
+import { interestLabels, isContactInterest } from '../src/models/contact.ts'
 
-export function createQuotationHandler(env: NodeJS.ProcessEnv, send = fetch) {
+export function createInquiryHandler(kind: 'quotation' | 'contact', env: NodeJS.ProcessEnv, send = fetch) {
   return async (req: IncomingMessage, res: ServerResponse) => {
     function reply(status: number, body: object) {
       res.writeHead(status, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }).end(JSON.stringify(body))
@@ -28,19 +29,30 @@ export function createQuotationHandler(env: NodeJS.ProcessEnv, send = fetch) {
       }
       let data
       try { data = JSON.parse(Buffer.concat(chunks).toString('utf8')) }
-      catch { return reply(400, { error: 'Invalid quotation request.' }) }
-      const product = products.find(p => p.id === data?.productId)
-      if (!product) return reply(400, { error: 'Choose a product from the catalog.' })
-      const { quantity } = data
-      if (!Number.isInteger(quantity) || quantity < 1 || quantity > 1000000) return reply(400, { error: 'Enter 1 to 1,000,000 whole packs.' })
+      catch { return reply(400, { error: 'Invalid inquiry.' }) }
+      if (!data || typeof data !== 'object') return reply(400, { error: 'Invalid inquiry.' })
       const name = typeof data.name === 'string' ? data.name.trim() : ''
       const email = typeof data.email === 'string' ? data.email.trim() : ''
       const message = data.message ?? ''
       if (!name || name.length > 100 || /[\r\n]/.test(name)) return reply(400, { error: 'Enter your full name.' })
       if (email.length > 254 || !/^[^\s@<>,;:"]+@[^\s@<>,;:"]+\.[^\s@<>,;:"]+$/.test(email)) return reply(400, { error: 'Enter a valid reply email.' })
       if (typeof message !== 'string' || message.length > 2000) return reply(400, { error: 'Keep additional details within 2,000 characters.' })
-      const subject = 'Quotation request: ' + product.name
-      const text = [subject, 'Pack size: ' + product.weight, 'Quantity: ' + quantity + ' packs', 'Name: ' + name, 'Email: ' + email, '', message.trim()].join('\n')
+      let subject: string
+      const details: string[] = []
+      if (kind === 'contact') {
+        if (name.length < 2 || message.trim().length < 20) return reply(400, { error: 'Please review your name and message.' })
+        const interest: unknown = data.interest
+        if (!isContactInterest(interest)) return reply(400, { error: 'Choose a valid inquiry topic.' })
+        subject = 'Contact inquiry: ' + interestLabels[interest]
+      } else {
+        const product = products.find(p => p.id === data.productId)
+        if (!product) return reply(400, { error: 'Choose a product from the catalog.' })
+        const quantity = data.quantity
+        if (!Number.isInteger(quantity) || quantity < 1 || quantity > 1000000) return reply(400, { error: 'Enter 1 to 1,000,000 whole packs.' })
+        subject = 'Quotation request: ' + product.name
+        details.push('Pack size: ' + product.weight, 'Quantity: ' + quantity + ' packs')
+      }
+      const text = [subject, ...details, 'Name: ' + name, 'Email: ' + email, '', message.trim()].join('\n')
       const id = createHash('sha256').update(JSON.stringify([req.headers['idempotency-key'] || randomUUID(), text])).digest('hex')
       const delivery = env.QUOTATION_MODE || 'demo'
       if (delivery === 'demo') {
@@ -65,7 +77,7 @@ export function createQuotationHandler(env: NodeJS.ProcessEnv, send = fetch) {
       } else { throw new Error('Email delivery configuration missing') }
       reply(201, { delivery })
     } catch {
-      reply(503, { error: 'Your quotation request could not be confirmed. Please try again later.' })
+      reply(503, { error: 'We could not confirm your submission. Please try again.' })
     }
   }
 }

@@ -1,9 +1,7 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 
-const interests = ['general', 'wholesale', 'gifting', 'order'] as const
-
-export type ContactInterest = (typeof interests)[number]
+import { isContactInterest, type ContactInterest } from '../models/contact'
 
 export interface ContactValues {
   name: string
@@ -16,7 +14,7 @@ type ContactErrors = Partial<Record<keyof ContactValues, string>>
 
 function initialValues(): ContactValues {
   const requestedInterest = new URLSearchParams(window.location.search).get('interest')
-  const interest = interests.find((value) => value === requestedInterest) ?? 'general'
+  const interest = isContactInterest(requestedInterest) ? requestedInterest : 'general'
 
   return { name: '', email: '', interest, message: '' }
 }
@@ -24,14 +22,18 @@ function initialValues(): ContactValues {
 export function useContactForm() {
   const [values, setValues] = useState<ContactValues>(initialValues)
   const [errors, setErrors] = useState<ContactErrors>({})
-  const [submitted, setSubmitted] = useState<ContactValues | null>(null)
+  const [step, setStep] = useState<'edit' | 'review' | 'sent'>('edit')
+  const [sending, setSending] = useState(false)
+  const [deliveryError, setDeliveryError] = useState('')
+  const inFlight = useRef(false)
+  const request = useRef<{ body: string; key: string } | null>(null)
 
   function updateField<Field extends keyof ContactValues>(field: Field, value: ContactValues[Field]) {
     setValues((current) => ({ ...current, [field]: value }))
     setErrors((current) => ({ ...current, [field]: undefined }))
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function preview(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
     const cleaned = {
@@ -46,7 +48,7 @@ export function useContactForm() {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleaned.email)) {
       nextErrors.email = 'Please enter a valid email address.'
     }
-    if (!interests.includes(cleaned.interest)) nextErrors.interest = 'Please choose a topic.'
+    if (!isContactInterest(cleaned.interest)) nextErrors.interest = 'Please choose a topic.'
     if (cleaned.message.length < 20) nextErrors.message = 'Please add a little detail (at least 20 characters).'
     if (cleaned.message.length > 2000) nextErrors.message = 'Please keep your message under 2,000 characters.'
 
@@ -58,14 +60,47 @@ export function useContactForm() {
       return
     }
 
-    setSubmitted(cleaned)
+    setValues(cleaned)
+    setDeliveryError('')
+    setStep('review')
+  }
+
+  async function sendInquiry() {
+    if (step !== 'review' || inFlight.current) return
+    const body = JSON.stringify(values)
+    if (request.current?.body !== body) {
+      request.current = { body, key: Array.from(crypto.getRandomValues(new Uint32Array(4))).join('-') }
+    }
+    inFlight.current = true
+    setSending(true)
+    setDeliveryError('')
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Idempotency-Key': request.current.key },
+        body,
+      })
+      const result = await response.json()
+      if (response.status === 201 && (result?.delivery === 'email' || result?.delivery === 'demo')) {
+        setStep('sent')
+      } else {
+        setDeliveryError(typeof result?.error === 'string' ? result.error : 'We could not confirm your submission. Please try again.')
+      }
+    } catch {
+      setDeliveryError('We could not confirm your submission. Check your connection and try again.')
+    } finally {
+      inFlight.current = false
+      setSending(false)
+    }
   }
 
   function resetForm() {
     setValues(initialValues())
     setErrors({})
-    setSubmitted(null)
+    request.current = null
+    setDeliveryError('')
+    setStep('edit')
   }
 
-  return { values, errors, submitted, updateField, handleSubmit, resetForm }
+  return { values, errors, step, sending, deliveryError, updateField, preview, edit: () => setStep('edit'), sendInquiry, resetForm }
 }

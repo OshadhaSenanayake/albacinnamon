@@ -26,7 +26,7 @@ npm.cmd run preview
 
 ## Requesting prices
 
-Select a product on Home or Products and choose **Inquire prices**. The quotation form opens with the product selected and collects pack quantity, customer name, reply email, and optional details. The general Contact form remains a local preview.
+Select a product on Home or Products and choose **Inquire prices**. The quotation form opens with the product selected and collects pack quantity, customer name, reply email, and optional details. On the Contact page, customers can preview, edit, and submit a general inquiry. Both forms deliver to the same configured mailbox.
 
 ## Delivery and deployment
 
