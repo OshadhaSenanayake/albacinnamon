@@ -37,9 +37,9 @@ export function ContactPage() {
           <span className="eyebrow">We’d love to hear from you</span>
           <h2>A good conversation<br />is the start of<br />something good.</h2>
           <p>Tell us a little about yourself and what you’re looking for. Start with the form to create a preview of your enquiry.</p>
-          <div className="contact-item"><span>Our roots</span><p>Sri Lanka, the home of Ceylon cinnamon.</p></div>
-          <div className="contact-item"><span>Sample contact</span><p>hello@albacinnamon.example</p><small>Illustrative address for this demo.</small></div>
-          <div className="contact-item"><span>Good things to know</span><p>This is a sample storefront. The form creates a local preview and does not send or store your enquiry.</p></div>
+          <div className="contact-item"><span>Our roots</span><p>Down south of Sri Lanka, the home of Ceylon cinnamon.</p></div>
+          <div className="contact-item"><span>Get in touch through</span><p><a href="mailto:hello@albacinnamon.com">hello@albacinnamon.com</a></p></div>
+          <div className="contact-item"><span>From our island to your home</span><p>You’re one click away from the delicate sweetness and warm aroma of fine Ceylon cinnamon. <Link href="/products">Explore our collection.</Link></p></div>
         </div>
 
         {submitted ? (
@@ -83,7 +83,6 @@ export function ContactPage() {
               {errors.message ? <span className="field-error" id="message-error">{errors.message}</span> : <small id="message-hint">20–2,000 characters. Please avoid sensitive personal information.</small>}
             </div>
             <button className="button button-primary" type="submit">Preview enquiry <span aria-hidden="true">↗</span></button>
-            <p className="form-note">A sample form, made for exploring. Nothing is sent to a server.</p>
           </form>
         )}
       </section>
@@ -92,7 +91,7 @@ export function ContactPage() {
         <div><span className="eyebrow">A little clarity</span><h2>A few things<br />you might be wondering.</h2></div>
         <div className="faq-list">
           <details><summary>How can I get pricing and delivery details?</summary><p><Link href="/quotation">Request a quotation</Link> with your product, quantity, and delivery destination.</p></details>
-          <details><summary>Which cinnamon format should I choose?</summary><p>Try quills for infusions, the baking blend for cakes and biscuits, or cinnamon tea for a warm cup. You can also find our 50 ml Ceylon Cinnamon Oil in the <Link href="/products">sample Ceylon cinnamon collection</Link>.</p></details>
+          <details><summary>Which cinnamon format should I choose?</summary><p>Tuck a quill into a pot of simmering apples, fold the baking blend into biscuit dough, or steep a cinnamon tea bag for a quiet afternoon cup. For fragrance, try our <Link href="/products?q=oil">Ceylon Cinnamon Oil</Link> in a diffuser to fill your room with a warm, gently spiced aroma.</p></details>
           <details><summary>Can I enquire about a wholesale order?</summary><p>Of course. Choose “Wholesale & bulk orders” above and include your preferred products, approximate quantities, and timing in your enquiry preview.</p></details>
         </div>
       </section>
