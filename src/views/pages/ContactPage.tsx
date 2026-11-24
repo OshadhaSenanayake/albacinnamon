@@ -91,7 +91,7 @@ export function ContactPage() {
       <section className="faq-section container">
         <div><span className="eyebrow">A little clarity</span><h2>A few things<br />you might be wondering.</h2></div>
         <div className="faq-list">
-          <details><summary>How does shipping work?</summary><p>In this sample store, shipping is $4.95 USD, or free when your product subtotal reaches $50. No physical orders are fulfilled.</p></details>
+          <details><summary>How can I get pricing and delivery details?</summary><p><Link href="/quotation">Request a quotation</Link> with your product, quantity, and delivery destination.</p></details>
           <details><summary>Which cinnamon format should I choose?</summary><p>Try quills for infusions, the baking blend for cakes and biscuits, or cinnamon tea for a warm cup. You can also find our 50 ml Ceylon Cinnamon Oil in the <Link href="/products">sample Ceylon cinnamon collection</Link>.</p></details>
           <details><summary>Can I enquire about a wholesale order?</summary><p>Of course. Choose “Wholesale & bulk orders” above and include your preferred products, approximate quantities, and timing in your enquiry preview.</p></details>
         </div>

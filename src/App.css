@@ -585,3 +585,6 @@
   .product-card h3 { font-size: 18px; }
   .product-subtitle { font-size: 6.5px; }
 }
+.quotation-page { max-width: 680px; padding-bottom: 70px; }
+.quotation-page fieldset { padding: 0; margin: 0; border: 0; min-width: 0; }
+.quotation-page .form-success .text-link { margin-top: 24px; }

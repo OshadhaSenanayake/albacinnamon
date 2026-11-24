@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { StoreProvider } from './controllers/StoreController'
+import { QuotationPage } from './views/pages/QuotationPage'
 import { useLocation } from './controllers/router'
 import { Layout } from './views/components/Layout'
 import { HomePage } from './views/pages/HomePage'
@@ -13,10 +13,11 @@ const titles: Record<string, string> = {
   '/': 'Alba Cinnamon',
   '/products': 'The collection',
   '/services': 'Our services',
+  '/quotation': 'Request a quotation',
   '/contact': 'Get in touch',
 }
 
-function AppContent() {
+export default function App() {
   const location = useLocation()
   const path = location.split('?')[0].replace(/\/$/, '') || '/'
   useEffect(() => {
@@ -33,6 +34,7 @@ function AppContent() {
       {path === '/' ? <HomePage />
         : path === '/products' ? <ProductsPage key={location} />
         : path === '/services' ? <ServicesPage />
+        : path === '/quotation' ? <QuotationPage key={location} />
         : path === '/contact' ? <ContactPage key={location} />
         : (
           <section className="container not-found">
@@ -43,13 +45,5 @@ function AppContent() {
           </section>
         )}
     </Layout>
-  )
-}
-
-export default function App() {
-  return (
-    <StoreProvider>
-      <AppContent />
-    </StoreProvider>
   )
 }

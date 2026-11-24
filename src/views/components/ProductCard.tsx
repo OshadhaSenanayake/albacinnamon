@@ -1,12 +1,10 @@
 import { useState } from 'react'
 import type { Product } from '../../models/product'
-import { formatPrice } from '../../models/product'
-import { useStore } from '../../controllers/useStore'
+import { Link } from './Link'
 import { ProductVisual } from './ProductVisual'
 import { Icon } from './Icon'
 import { Modal } from './Modal'
 export function ProductCard({ product }: { product: Product }) {
-  const { addItem } = useStore()
   const [detailsOpen, setDetailsOpen] = useState(false)
   return (
     <>
@@ -26,11 +24,7 @@ export function ProductCard({ product }: { product: Product }) {
                 {product.name}
               </button>
             </h3>
-            <span className="product-price">{formatPrice(product.price)}</span>
           </div>
-          <button className="add-to-bag" onClick={() => addItem(product.id)} aria-label={`Add ${product.name} to bag`}>
-            <Icon name="plus" size={21} />
-          </button>
         </div>
       </article>
       {detailsOpen && (
@@ -44,9 +38,9 @@ export function ProductCard({ product }: { product: Product }) {
             <p className="detail-weight">{product.weight} <span>·</span> {product.subtitle}</p>
             <p>{product.description}</p>
             <p className="detail-note"><Icon name="leaf" size={18} /> Thoughtfully chosen for your daily rituals.</p>
-            <strong className="detail-price">{formatPrice(product.price)}</strong>
-            <button className="button button-primary" onClick={() => { addItem(product.id); setDetailsOpen(false) }}>Add to bag <Icon name="bag" size={19} /></button>
-            <small>Sample product and packaging. Prices in USD.</small>
+            <Link className="button button-primary" href={`/quotation?product=${encodeURIComponent(product.id)}`}>
+              Inquire prices <Icon name="arrow" size={19} />
+            </Link>
           </div>
         </Modal>
       )}

@@ -1,4 +1,12 @@
-import { products, type Product } from './product.ts'
+import { products as catalog, type Product } from './product.ts'
+
+// Sample prices are used only by the dormant cart, outside the public catalog.
+const demoPrices: Record<string, number> = {
+  'cinnamon-sticks': 12.5, 'cinnamon-baking-blend': 11, 'cinnamon-tea': 14,
+  'cinnamon-gift-set': 32, 'alba-cinnamon-quills': 18, 'cinnamon-oil': 9.5,
+}
+const products = catalog.flatMap(product => Object.hasOwn(demoPrices, product.id)
+  ? [{ ...product, price: demoPrices[product.id] }] : [])
 
 export interface CartEntry {
   productId: string
@@ -6,7 +14,7 @@ export interface CartEntry {
 }
 
 export interface CartItem {
-  product: Product
+  product: Product & { price: number }
   quantity: number
 }
 

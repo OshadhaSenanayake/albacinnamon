@@ -15,18 +15,18 @@ test('stored carts reject unknown products, malformed entries, and non-integer q
     { productId: 'cinnamon-sticks' },
     { productId: 'cinnamon-sticks', quantity: 1.5 },
     { productId: 'cinnamon-sticks', quantity: '2' },
-    { productId: 'ground-cinnamon', quantity: 2 },
-  ]), [{ productId: 'ground-cinnamon', quantity: 2 }])
+    { productId: 'cinnamon-oil', quantity: 2 },
+  ]), [{ productId: 'cinnamon-oil', quantity: 2 }])
 })
 
 test('stored duplicates merge and quantities stay within the purchase limit', () => {
   assert.deepEqual(normalizeCart([
     { productId: 'cinnamon-sticks', quantity: 2 },
     { productId: 'cinnamon-sticks', quantity: 3 },
-    { productId: 'ground-cinnamon', quantity: 1000 },
+    { productId: 'cinnamon-oil', quantity: 1000 },
   ]), [
     { productId: 'cinnamon-sticks', quantity: 5 },
-    { productId: 'ground-cinnamon', quantity: MAX_QUANTITY },
+    { productId: 'cinnamon-oil', quantity: MAX_QUANTITY },
   ])
 })
 
@@ -97,9 +97,9 @@ test('corrupted stored JSON is ignored and valid stored carts are normalized', (
     storedValue = JSON.stringify([
       { productId: 'missing-product', quantity: 1 },
       { productId: 'cinnamon-sticks', quantity: -1 },
-      { productId: 'ground-cinnamon', quantity: 3 },
+      { productId: 'cinnamon-oil', quantity: 3 },
     ])
-    assert.deepEqual(readCart(), [{ productId: 'ground-cinnamon', quantity: 3 }])
+    assert.deepEqual(readCart(), [{ productId: 'cinnamon-oil', quantity: 3 }])
     saveCart([{ productId: 'cinnamon-sticks', quantity: 2 }])
     assert.deepEqual(readCart(), [{ productId: 'cinnamon-sticks', quantity: 2 }])
   } finally {

@@ -59,8 +59,6 @@ export function ProductsPage() {
               aria-label="Sort products"
             >
               <option value="featured">Featured</option>
-              <option value="price-asc">Price: low to high</option>
-              <option value="price-desc">Price: high to low</option>
               <option value="name">Name: A to Z</option>
             </select>
           </label>
@@ -80,11 +78,6 @@ export function ProductsPage() {
             </button>
           </div>
         )}
-        <div className="catalog-note">
-          <Icon name="truck" size={21} />
-          <p>A little warmth, delivered. <strong>Complimentary shipping on orders $50 and over.</strong></p>
-          <span>All prices in USD · Sample collection</span>
-        </div>
       </section>
     </>
   )

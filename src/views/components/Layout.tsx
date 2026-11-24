@@ -1,16 +1,13 @@
 import { useState } from 'react'
 import type { ReactNode } from 'react'
-import { useStore } from '../../controllers/useStore'
 import { Brand, Botanical } from './Brand'
 import { Link } from './Link'
 import { Icon } from './Icon'
-import { CartDrawer } from './CartDrawer'
 
 const navigation = [{ href: '/', label: 'Home' }, { href: '/services', label: 'Services' }, { href: '/products', label: 'Products' }, { href: '/contact', label: 'Contact' }]
 
 export function Layout({ children, path }: { children: ReactNode; path: string }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const { cartOpen, setCartOpen, toast, dismissToast } = useStore()
   return (
     <>
       <a className="skip-link" href="#main-content">Skip to content</a>
@@ -87,25 +84,9 @@ export function Layout({ children, path }: { children: ReactNode; path: string }
         </div>
         <div className="container footer-bottom">
           <span>© {new Date().getFullYear()} Alba Cinnamon</span>
-          <span>Sample storefront · Products and prices are illustrative · No real orders or payments</span>
           <span>Good by nature.</span>
         </div>
       </footer>
-      {cartOpen && <CartDrawer onClose={() => setCartOpen(false)} />}
-      <div className={`toast ${toast ? 'is-visible' : ''}`} role="status" aria-live="polite">
-        {toast && (
-          <>
-            <span className="toast-check">
-              <Icon name="check" size={17} />
-            </span>
-            <span>{toast}</span>
-            <button className="text-link" onClick={() => { dismissToast(); setCartOpen(true) }}>View bag</button>
-            <button className="icon-button" aria-label="Dismiss notification" onClick={dismissToast}>
-              <Icon name="close" size={17} />
-            </button>
-          </>
-        )}
-      </div>
     </>
   )
 }
